@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Technologies multimédia – cours et laboratoire</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f7;--surf:#fff;--ink:#1b1f2a;--mut:#5a6272;--line:#d9dce3;--red:#c8102e;--redink:#fff;--ok:#1d7a46;--bad:#b3261e;--curve:#9aa1af;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13161d;--surf:#1d212b;--ink:#eceef3;--mut:#a5acbb;--line:#323847;--red:#ff5a6e;--redink:#13161d;--ok:#5fd08e;--bad:#ff8a80;--curve:#6d7587;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13161d;--surf:#1d212b;--ink:#eceef3;--mut:#a5acbb;--line:#323847;--red:#ff5a6e;--redink:#13161d;--ok:#5fd08e;--bad:#ff8a80;--curve:#6d7587;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.06rem/1.65 "Source Serif 4",Georgia,serif}
+h1,h2,h3,summary,button,label,.ui{font-family:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px;flex-wrap:wrap}
+.logo{font:800 1.2rem "Bricolage Grotesque",sans-serif;text-decoration:none;color:inherit}
+nav a{margin-left:16px;text-decoration:none;color:var(--mut);font:500 .95rem "Bricolage Grotesque",sans-serif}
+nav a:hover{color:var(--ink)}
+h1{font-size:clamp(2.1rem,6vw,3.8rem);line-height:1.04;letter-spacing:-.02em;margin:28px 0 12px;max-width:17ch;font-weight:800}
+.lead{color:var(--mut);max-width:58ch;margin:0 0 22px}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:20px}
+canvas{width:100%;height:230px;display:block;border-radius:8px;background:var(--bg)}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px}
+label{display:block;font-weight:700;font-size:.95rem}
+input[type=range]{width:100%;accent-color:var(--red)}
+input[type=number]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.out{margin:12px 0 0;font:600 1rem "Bricolage Grotesque",sans-serif}
+.out b{color:var(--red)}
+section{padding:44px 0 4px}
+h2{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 18px}
+details{background:var(--surf);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;border-left:6px solid var(--red)}
+summary{cursor:pointer;padding:16px 18px;font-weight:700;font-size:1.08rem;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary small{display:block;font-weight:500;color:var(--mut);font-size:.9rem;margin-top:2px}
+details[open] summary{border-bottom:1px solid var(--line)}
+details ul{margin:0;padding:14px 18px 16px 38px}
+details li{margin:4px 0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.btn{background:var(--red);color:var(--redink);border:0;border-radius:8px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:.98rem}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opts button{text-align:left;padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;cursor:pointer}
+.opts button.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent)}
+.opts button.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,transparent)}
+.q{font-weight:600;margin:0}
+footer{margin:48px 0 0;padding:24px 0 40px;border-top:1px solid var(--line);color:var(--mut);font-size:.95rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:6px;background:var(--surf);border:1px solid var(--line);border-top:6px solid var(--red);border-radius:12px;padding:16px;text-decoration:none;color:inherit}
+.card:hover{border-color:var(--red)}
+.card b{font:700 1.1rem "Bricolage Grotesque",sans-serif}
+.card span{color:var(--mut);font-size:.95rem;line-height:1.45}
+.card .n{font:600 .85rem "Bricolage Grotesque",sans-serif}
+.back{display:inline-block;margin:18px 0 0;color:var(--mut);text-decoration:none;font:600 .95rem "Bricolage Grotesque",sans-serif}
+.pg h1{font-size:clamp(1.8rem,5vw,3rem);max-width:22ch;margin:10px 0 8px}
+.pg .panel{margin-bottom:12px}
+.pg h3{margin:0 0 6px;font-size:1.15rem}
+.pg ul{margin:6px 0 0;padding-left:22px}
+.pg p{margin:0}
+.nav2{display:flex;justify-content:space-between;gap:12px;margin:24px 0 0;flex-wrap:wrap}
+.nav2 a{color:var(--ink);font:700 .98rem "Bricolage Grotesque",sans-serif;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:10px 16px;background:var(--surf)}
+.tool{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.tool>div{flex:1;min-width:180px}
+select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;margin-top:4px}
+.sw{height:64px;border-radius:8px;border:1px solid var(--line);margin:10px 0}
+.pg canvas{margin:8px 0}
+.hero2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:center;padding-top:8px}
+.hero2 h1{margin-top:10px}
+a.btn{text-decoration:none;display:inline-block;margin:0 8px 8px 0}
+.hsvg{width:100%;height:auto;display:block}
+.sg{fill:none;stroke:var(--curve);stroke-width:3}
+.sd{fill:var(--red)}
+.sb{fill:var(--mut);font:600 13px "Bricolage Grotesque",monospace}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px}
+.stats .panel{padding:14px 18px;color:var(--mut)}
+.stats b{font:800 2rem "Bricolage Grotesque",sans-serif;color:var(--red);margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="logo" href="#accueil">Technologies multimédia</a>
+  <nav><a href="#accueil">Accueil</a><a href="#labo">Laboratoire</a><a href="#cours">Les 4 chapitres</a><a href="#experiences">Expériences</a><a href="#calculs">Calculs</a><a href="#quiz">Quiz</a></nav>
+</header>
+
+<main id="haut"><div id="land" hidden>
+    <div class="hero2">
+      <div>
+        <p class="sub" style="margin:0">Cours de Wiem Zaouga, L2 IRS, Institut Supérieur d’Informatique du Kef</p>
+        <h1>Comprendre le multimédia, du signal au fichier.</h1>
+        <p class="lead">Quatre chapitres, des expériences à manipuler et des quiz toujours différents pour réviser Technologies multimédia à votre rythme.</p>
+        <p><a class="btn" href="#cours">Commencer le cours</a><a class="btn alt" href="#experiences">Faire une expérience</a><a class="btn alt" href="#quiz">Passer un quiz</a></p>
+      </div>
+      <div class="panel"><svg viewBox="0 0 360 215" role="img" aria-label="Un signal sinusoïdal échantillonné en 9 points, chacun codé sur 3 bits" class="hsvg"><line x1="20" y1="100" x2="340" y2="100" class="sg" style="stroke-width:1"/><path d="M20.0 100.0 L24.0 95.1 L28.0 90.3 L32.0 85.5 L36.0 80.8 L40.0 76.3 L44.0 71.9 L48.0 67.6 L52.0 63.6 L56.0 59.7 L60.0 56.2 L64.0 52.9 L68.0 49.8 L72.0 47.1 L76.0 44.8 L80.0 42.7 L84.0 41.0 L88.0 39.7 L92.0 38.8 L96.0 38.2 L100.0 38.0 L104.0 38.2 L108.0 38.8 L112.0 39.7 L116.0 41.0 L120.0 42.7 L124.0 44.8 L128.0 47.1 L132.0 49.8 L136.0 52.9 L140.0 56.2 L144.0 59.7 L148.0 63.6 L152.0 67.6 L156.0 71.9 L160.0 76.3 L164.0 80.8 L168.0 85.5 L172.0 90.3 L176.0 95.1 L180.0 100.0 L184.0 104.9 L188.0 109.7 L192.0 114.5 L196.0 119.2 L200.0 123.7 L204.0 128.1 L208.0 132.4 L212.0 136.4 L216.0 140.3 L220.0 143.8 L224.0 147.1 L228.0 150.2 L232.0 152.9 L236.0 155.2 L240.0 157.3 L244.0 159.0 L248.0 160.3 L252.0 161.2 L256.0 161.8 L260.0 162.0 L264.0 161.8 L268.0 161.2 L272.0 160.3 L276.0 159.0 L280.0 157.3 L284.0 155.2 L288.0 152.9 L292.0 150.2 L296.0 147.1 L300.0 143.8 L304.0 140.3 L308.0 136.4 L312.0 132.4 L316.0 128.1 L320.0 123.7 L324.0 119.2 L328.0 114.5 L332.0 109.7 L336.0 104.9 L340.0 100.0" class="sg"/><line x1="20.0" y1="100" x2="20.0" y2="91.1" class="sg" style="stroke-width:1.5"/><circle cx="20.0" cy="91.1" r="5" class="sd"/><line x1="60.0" y1="100" x2="60.0" y2="55.7" class="sg" style="stroke-width:1.5"/><circle cx="60.0" cy="55.7" r="5" class="sd"/><line x1="100.0" y1="100" x2="100.0" y2="38.0" class="sg" style="stroke-width:1.5"/><circle cx="100.0" cy="38.0" r="5" class="sd"/><line x1="140.0" y1="100" x2="140.0" y2="55.7" class="sg" style="stroke-width:1.5"/><circle cx="140.0" cy="55.7" r="5" class="sd"/><line x1="180.0" y1="100" x2="180.0" y2="91.1" class="sg" style="stroke-width:1.5"/><circle cx="180.0" cy="91.1" r="5" class="sd"/><line x1="220.0" y1="100" x2="220.0" y2="144.3" class="sg" style="stroke-width:1.5"/><circle cx="220.0" cy="144.3" r="5" class="sd"/><line x1="260.0" y1="100" x2="260.0" y2="162.0" class="sg" style="stroke-width:1.5"/><circle cx="260.0" cy="162.0" r="5" class="sd"/><line x1="300.0" y1="100" x2="300.0" y2="144.3" class="sg" style="stroke-width:1.5"/><circle cx="300.0" cy="144.3" r="5" class="sd"/><line x1="340.0" y1="100" x2="340.0" y2="108.9" class="sg" style="stroke-width:1.5"/><circle cx="340.0" cy="108.9" r="5" class="sd"/><text x="20.0" y="196" text-anchor="middle" class="sb">100</text><text x="60.0" y="196" text-anchor="middle" class="sb">110</text><text x="100.0" y="196" text-anchor="middle" class="sb">111</text><text x="140.0" y="196" text-anchor="middle" class="sb">110</text><text x="180.0" y="196" text-anchor="middle" class="sb">100</text><text x="220.0" y="196" text-anchor="middle" class="sb">001</text><text x="260.0" y="196" text-anchor="middle" class="sb">000</text><text x="300.0" y="196" text-anchor="middle" class="sb">001</text><text x="340.0" y="196" text-anchor="middle" class="sb">011</text></svg><p class="sub" style="margin:6px 0 0;font-size:.92rem">Un signal échantillonné en 9 points, chaque point codé sur 3 bits.</p></div>
+    </div>
+    <div class="stats"><div class="panel"><b>4</b> chapitres détaillés</div><div class="panel"><b>27</b> questions de quiz</div><div class="panel"><b>11</b> expériences interactives</div></div>
+    <section><h2>Le parcours</h2><p class="sub">Du multimédia général jusqu’à la compression, dans l’ordre du cours.</p>
+    <div class="cards"><a class="card" href="#chapitre-1"><span class="n">Chapitre 1</span><b>Introduction aux systèmes multimédias</b><span>Médias, hypertexte, historique, domaines.</span></a><a class="card" href="#chapitre-2"><span class="n">Chapitre 2</span><b>Les signaux multimédia</b><span>Son, image, vidéo, numérisation.</span></a><a class="card" href="#chapitre-3"><span class="n">Chapitre 3</span><b>Théorie de l’information et codage binaire</b><span>Entropie, bases 2, 10, 16, Huffman.</span></a><a class="card" href="#chapitre-4"><span class="n">Chapitre 4</span><b>Compression des signaux multimédia</b><span>RLE, LZW, MP3, JPEG, MPEG.</span></a></div></section>
+    <section><h2>Comment réviser</h2><div class="two">
+      <div class="panel"><h3 style="margin:0 0 4px">1. Lire</h3>Ouvrez un chapitre : objectifs, notions clés et exemples chiffrés du cours.</div>
+      <div class="panel"><h3 style="margin:0 0 4px">2. Manipuler</h3>Changez l’échantillonnage, les pixels, les couleurs ou les probabilités et observez le résultat.</div>
+      <div class="panel"><h3 style="margin:0 0 4px">3. Se tester</h3>Chaque quiz tire des questions au hasard : refaites-le jusqu’à maîtriser le chapitre.</div>
+    </div></section>
+  </div>
+  <div id="home" hidden>
+  <h1>Du signal analogique au fichier compressé.</h1>
+  <p class="lead">Un site de révision pour le cours de L2 IRS (Institut Supérieur d’Informatique du Kef). Commencez par manipuler un signal : changez l’échantillonnage et la quantification, puis observez ce que perd ou garde le numérique.</p>
+
+  <div class="panel" id="labo" aria-label="Laboratoire de numérisation">
+    <canvas id="cv" role="img" aria-label="Signal sinusoïdal, échantillons et signal quantifié"></canvas>
+    <div class="ctl">
+      <div><label for="n">Échantillons : <span id="nv"></span></label><input id="n" type="range" min="4" max="48" value="16"></div>
+      <div><label for="b">Bits par échantillon : <span id="bv"></span></label><input id="b" type="range" min="1" max="6" value="3"></div>
+    </div>
+    <p class="out" id="lab"></p>
+    <p class="sub" style="margin:6px 0 0">Courbe grise : signal analogique. Points et paliers rouges : signal échantillonné puis quantifié. L’échantillonnage discrétise le temps, la quantification discrétise l’amplitude.</p>
+  </div>
+
+  <section id="cours">
+    <h2>Les quatre chapitres</h2>
+    <p class="sub">Cliquez sur un chapitre pour ouvrir sa page dédiée.</p>
+    <div class="cards">
+      <a class="card" href="#chapitre-1"><span class="n">Chapitre 1 · 1h30</span><b>Introduction aux systèmes multimédias</b><span>Médias, hypertexte, historique, domaines, chaîne de transmission.</span></a>
+      <a class="card" href="#chapitre-2"><span class="n">Chapitre 2 · 4h30</span><b>Les signaux multimédia</b><span>Son, image, vidéo, classification des signaux, numérisation.</span></a>
+      <a class="card" href="#chapitre-3"><span class="n">Chapitre 3 · 3h</span><b>Théorie de l’information et codage binaire</b><span>Entropie, bases 2, 10 et 16, codes fixes, Huffman.</span></a>
+      <a class="card" href="#chapitre-4"><span class="n">Chapitre 4 · 4h30</span><b>Compression des signaux multimédia</b><span>RLE, LZW, MP3, JPEG, MPEG, avec ou sans perte.</span></a>
+    </div>
+  </section>
+
+  <section id="experiences">
+    <h2>Expériences</h2>
+    <p class="sub">Manipulez les notions du cours. Chaque expérience se trouve dans la page de son chapitre.</p>
+    <div class="cards"><a class="card" href="#labo"><b>Échantillonnage et quantification</b><span>Ci-dessus, sur cette page.</span></a><a class="card" href="#chapitre-2"><b>Signal et bruit</b><span>Chapitre 2</span></a><a class="card" href="#chapitre-2"><b>Pixels : résolution et profondeur</b><span>Chapitre 2</span></a><a class="card" href="#chapitre-2"><b>Mélangeur RVB et CMY</b><span>Chapitre 2</span></a><a class="card" href="#chapitre-3"><b>Convertisseur de bases</b><span>Chapitre 3</span></a><a class="card" href="#chapitre-3"><b>Code de Huffman</b><span>Chapitre 3</span></a><a class="card" href="#chapitre-4"><b>Compression RLE et taux</b><span>Chapitre 4</span></a><a class="card" href="#chapitre-1"><b>Temps de téléchargement</b><span>Chapitre 1</span></a></div>
+  </section>
+
+  <section id="calculs">
+    <h2>Calculs du cours</h2>
+    <p class="sub">Deux outils pour vérifier vos exercices.</p>
+    <div class="two">
+      <div class="panel">
+        <h3 style="margin:0 0 8px">Taille d’une image ou d’une vidéo</h3>
+        <div class="ctl" style="margin-top:0;grid-template-columns:1fr 1fr">
+          <div><label for="w">Largeur (px)</label><input id="w" type="number" value="1920" min="1"></div>
+          <div><label for="h">Hauteur (px)</label><input id="h" type="number" value="1080" min="1"></div>
+          <div><label for="bp">Bits par pixel</label><input id="bp" type="number" value="24" min="1"></div>
+          <div><label for="fps">Images par seconde</label><input id="fps" type="number" value="30" min="1"></div>
+          <div style="grid-column:1/-1"><label for="tc">Taux de compression C (1 = brut)</label><input id="tc" type="number" value="1" min="1" step="0.5"></div>
+        </div>
+        <p class="out" id="r1"></p>
+      </div>
+      <div class="panel">
+        <h3 style="margin:0 0 8px">Entropie d’une source à 4 symboles</h3>
+        <div class="g4" id="pe"></div>
+        <p class="out" id="r2"></p>
+        <p class="sub" style="margin:6px 0 0">Par défaut : A = 0,7 et trois symboles à 0,1, soit H ≈ 1,36 bit/symbole.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2>Quiz de révision</h2>
+    <p class="sub">5 questions tirées au hasard dans une banque de 27. Chaque nouveau quiz est différent.</p>
+    <div class="panel"><label for="qf">Chapitre</label><select id="qf"><option value="0">Tous les chapitres</option><option value="1">Chapitre 1</option><option value="2">Chapitre 2</option><option value="3">Chapitre 3</option><option value="4">Chapitre 4</option></select><div id="qz" style="margin-top:14px"></div></div>
+  </section>
+</div><div id="chap" hidden></div></main>
+
+<footer>Contenu fondé sur les supports de cours « Technologies multimédia », L2 IRS, Institut Supérieur d’Informatique du Kef, 2025-2026.</footer>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+/* Laboratoire */
+function draw(){
+  var c=$("cv"),d=window.devicePixelRatio||1,W=c.clientWidth,H=c.clientHeight;
+  c.width=W*d;c.height=H*d;var x=c.getContext("2d");x.scale(d,d);
+  var N=+$("n").value,B=+$("b").value,L=Math.pow(2,B),p=14,iw=W-2*p,ih=H-2*p;
+  $("nv").textContent=N;$("bv").textContent=B;
+  function X(t){return p+t*iw}function Y(v){return p+(1-(v+1)/2)*ih}
+  function s(t){return Math.sin(2*Math.PI*2*t)}
+  function q(v){return Math.round((v+1)/2*(L-1))/(L-1)*2-1}
+  x.strokeStyle=css("--line");x.lineWidth=1;x.beginPath();x.moveTo(p,Y(0));x.lineTo(W-p,Y(0));x.stroke();
+  x.strokeStyle=css("--curve");x.lineWidth=2;x.beginPath();
+  for(var i=0;i<=300;i++){var t=i/300;i?x.lineTo(X(t),Y(s(t))):x.moveTo(X(t),Y(s(t)))}x.stroke();
+  var red=css("--red");x.strokeStyle=red;x.fillStyle=red;x.lineWidth=2;x.beginPath();
+  for(var k=0;k<=N;k++){var t0=k/N,y=Y(q(s(t0)));if(k===0)x.moveTo(X(t0),y);else{x.lineTo(X(t0),x.__y);x.lineTo(X(t0),y)}x.__y=y}
+  x.stroke();
+  for(k=0;k<=N;k++){x.beginPath();x.arc(X(k/N),Y(q(s(k/N))),3.5,0,7);x.fill()}
+  $("lab").innerHTML="<b>"+N+"</b> échantillons × <b>"+B+"</b> bits = <b>"+(N*B)+" bits</b> pour 2 périodes · "+L+" niveaux possibles";
+}
+$("n").oninput=draw;$("b").oninput=draw;window.addEventListener("resize",draw);
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw)}catch(e){}
+draw();
+/* Taille brute */
+function fmt(o){var u=["o","Ko","Mo","Go","To"],i=0;while(o>=1000&&i<4){o/=1000;i++}return o.toFixed(o<10?2:1).replace(".",",")+" "+u[i]}
+function calc1(){
+  var w=+$("w").value,h=+$("h").value,b=+$("bp").value,f=+$("fps").value,c=Math.max(1,+$("tc").value||1);
+  var img=w*h*b/8,sec=img*f,min=sec*60;
+  $("r1").innerHTML="Image : <b>"+fmt(img/c)+"</b><br>1 seconde : <b>"+fmt(sec/c)+"</b><br>1 minute : <b>"+fmt(min/c)+"</b>"+(c>1?"<br>Réduction : <b>"+((1-1/c)*100).toFixed(1).replace(".",",")+" %</b>":"");
+}
+["w","h","bp","fps","tc"].forEach(function(i){$(i).oninput=calc1});calc1();
+/* Entropie */
+var pv=[.7,.1,.1,.1],names=["A","B","C","D"];
+names.forEach(function(n,i){var d=document.createElement("div");d.innerHTML='<label for="p'+i+'">p('+n+')</label><input id="p'+i+'" type="number" min="0" max="1" step="0.05" value="'+pv[i]+'">';$("pe").appendChild(d);d.querySelector("input").oninput=calc2});
+function calc2(){
+  var s=0,H=0;names.forEach(function(n,i){var p=Math.max(0,+$("p"+i).value||0);s+=p;if(p>0)H-=p*Math.log2(p)});
+  var ok=Math.abs(s-1)<0.001;
+  $("r2").innerHTML=ok?"H = <b>"+H.toFixed(3).replace(".",",")+" bit/symbole</b> (maximum : 2 bits)":"La somme des probabilités vaut "+s.toFixed(2).replace(".",",")+" : elle doit être égale à 1.";
+}
+calc2();
+/* Quiz */
+var QB=[
+[1,"Combien de médias élémentaires le cours distingue-t-il ?","5 : texte, image, son, vidéo, animation","3 seulement","7 : avec la 3D et la réalité virtuelle","Texte, image, son, vidéo et animation."],
+[1,"Qui a inventé le terme « hypertexte » ?","Ted Nelson","Tim Berners-Lee","V. Bush","Ted Nelson en 1965 ; Bush a imaginé le Memex en 1945 et Berners-Lee le Web en 1990."],
+[1,"Quelle différence entre hypertexte et hypermédia ?","L’hypermédia relie aussi images, sons et vidéos","L’hypertexte est plus récent","Il n’y en a aucune","L’hypermédia étend la navigation à tous les médias."],
+[1,"Quels sont les trois piliers d’un système multimédia ?","Matériel, logiciel, réseau","Source, canal, utilisateur","Image, son, vidéo","Matériel, logiciel et réseau."],
+[1,"Qu’est-ce qu’un codec ?","Un outil qui encode ou décode un flux multimédia","Un câble réseau","Un capteur de lumière","JPEG, MP3 et MP4 sont des exemples."],
+[1,"Une minute de vidéo 640×480, 24 bits/pixel, 25 images/s, sans compression, pèse environ :","1,3 Go","13 Mo","130 Ko","22 Mo par seconde × 60 s ≈ 1,3 Go."],
+[2,"Quelle est la période d’un son de 440 Hz ?","≈ 2,27 ms","≈ 4,40 ms","≈ 440 ms","T = 1/f = 1/440 ≈ 2,27 ms."],
+[2,"Quel paramètre perceptif du son est lié à l’amplitude ?","L’intensité","La hauteur","Le timbre","Plus l’amplitude est grande, plus le son est fort."],
+[2,"Combien de couleurs permet le RVB sur 24 bits ?","≈ 16,7 millions","256","65 536","256³ ≈ 16,7 millions."],
+[2,"Quelle étape discrétise l’amplitude ?","La quantification","L’échantillonnage","Le codage","L’échantillonnage discrétise le temps."],
+[2,"Quel est le domaine audible humain ?","20 Hz à 20 000 Hz","2 Hz à 200 Hz","200 Hz à 2 000 Hz","Environ 20 Hz à 20 000 Hz."],
+[2,"Combien de pixels contient une image 1024 × 768 ?","786 432","78 643","1 792","1024 × 768 = 786 432."],
+[2,"Le son se propage-t-il dans le vide ?","Non, il a besoin d’un milieu matériel","Oui, comme la lumière","Seulement les sons aigus","Le son est une onde de vibration de la matière."],
+[3,"Quelle est l’information d’un événement de probabilité 1/16 ?","4 bits","16 bits","1 bit","I = −log₂(1/16) = 4 bits."],
+[3,"Quelle est l’entropie d’une source de 8 symboles équiprobables ?","3 bits/symbole","8 bits/symbole","1 bit/symbole","H = log₂ 8 = 3."],
+[3,"Combien de bits pour coder 20 symboles avec un code fixe ?","5","4","20","2⁴ = 16 < 20 ≤ 2⁵ = 32."],
+[3,"Convertir 10110110 en hexadécimal.","B6","A6","6B","1011 = B et 0110 = 6."],
+[3,"Dans un code de Huffman, quels symboles ont les mots les plus courts ?","Les plus probables","Les plus rares","Les premiers de l’alphabet","Les symboles fréquents reçoivent des codes courts."],
+[3,"Quelle propriété garantit un décodage non ambigu ?","La propriété de préfixe","L’égalité des longueurs","L’ordre alphabétique","Aucun mot de code n’est le début d’un autre."],
+[3,"Quelle est l’entropie d’une source dont un symbole a p = 1 ?","0","1","Elle est infinie","Aucune incertitude : H = 0."],
+[4,"Un fichier passe de 1 000 à 250 bits. Quel est le taux de compression C ?","4","0,25","75","C = 1 000 / 250 = 4 (réduction de 75 %)."],
+[4,"Que donne le codage RLE de AAAAABBCCCCDD ?","A5B2C4D2","5A2B4C2D","ABCD","Chaque symbole est suivi de son nombre de répétitions."],
+[4,"Lequel de ces formats est avec perte ?","MP3","ZIP","PNG","ZIP et PNG sont sans perte."],
+[4,"Quelle redondance la vidéo exploite-t-elle surtout ?","La redondance temporelle","La redondance de répétition de caractères","Aucune","Deux images successives sont proches : on code surtout les changements."],
+[4,"Quelle transformation JPEG applique-t-il aux blocs d’image ?","La DCT","Le chiffrement","L’échantillonnage audio","Après YCbCr et la découpe en blocs, vient la DCT."],
+[4,"À quoi sert le modèle psycho-acoustique du MP3 ?","À repérer les composantes sonores masquées","À chiffrer le son","À augmenter le volume","Il guide la répartition du débit."],
+[4,"Quel est le taux de réduction R pour C = 4 ?","75 %","25 %","400 %","R = (1 − 1/4) × 100 = 75 %."]];
+function Quiz(el,f,n){
+  var pool=QB.filter(function(x){return !f||x[0]===f}),i=0,sc=0,set;
+  function sh(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
+  function start(){set=sh(pool).slice(0,n);i=0;sc=0;show()}
+  function show(){
+    if(i>=set.length){el.innerHTML='<p class="q">Score : '+sc+' / '+set.length+'</p><div style="margin-top:12px"><button class="btn">Nouveau quiz</button></div>';el.querySelector("button").onclick=start;return}
+    var k=set[i];
+    el.innerHTML='<p class="sub" style="margin:0 0 4px">Question '+(i+1)+' sur '+set.length+'</p><p class="q">'+k[1]+'</p><div class="opts"></div><p class="fb" aria-live="polite" style="margin:12px 0 0"></p>';
+    var box=el.querySelector(".opts"),fb=el.querySelector(".fb");
+    sh([k[2],k[3],k[4]]).forEach(function(t){var b=document.createElement("button");b.textContent=t;b.onclick=function(){
+      box.querySelectorAll("button").forEach(function(x){x.disabled=true;if(x.textContent===k[2])x.classList.add("ok")});
+      if(t!==k[2])b.classList.add("bad");else sc++;
+      fb.innerHTML=(t===k[2]?"Bonne réponse. ":"Pas tout à fait. ")+k[5]+' <button class="btn alt" style="margin-left:6px">'+(i+1<set.length?"Suite":"Voir le score")+"</button>";
+      fb.querySelector("button").onclick=function(){i++;show()}};box.appendChild(b)});
+  }
+  start();
+}
+function hq(){Quiz($("qz"),+$("qf").value,5)}
+$("qf").onchange=hq;hq();
+/* Pages de chapitres */
+var C=[
+{t:"Introduction aux systèmes multimédias",d:"Support de 1h30",o:["Définir multimédia, hypertexte et hypermédia","Retracer l’évolution des technologies multimédias","Identifier les domaines d’application","Décrire les composants d’un système multimédia"],
+s:[
+{h:"Pourquoi combiner plusieurs médias ?",p:"Selon le cours, nous retenons environ 10 % de ce que nous lisons, 20 % de ce que nous entendons et 30 % de ce que nous voyons. En combinant les canaux, on monte à 50 % (voir et entendre), 80 % (dire) et 90 % (faire et dire)."},
+{h:"Qu’est-ce que le multimédia ?",p:"Une combinaison de plusieurs types de médias (texte, image, son, vidéo, animation) intégrés dans un même support ou système pour transmettre une information. Deux points de vue existent : le point de vue « information » (un message qui met en jeu plusieurs canaux perceptifs, utilisés ensemble ou l’un après l’autre) et le point de vue « informatique » (manipuler sons, images et textes sur un même ensemble informatique, de façon interactive)."},
+{h:"Hypertexte et hypermédia",l:["Hypertexte : texte structuré en liens pour une navigation non linéaire, comme les pages web reliées par des hyperliens.","Hypermédia : les liens relient aussi images, sons, vidéos et animations, comme une encyclopédie multimédia interactive."]},
+{h:"Historique",l:["1945 : le Memex de V. Bush, précurseur de l’hypertexte.","1965 : Ted Nelson invente le terme « hypertexte ».","1990 : le Web de Tim Berners-Lee (HTML et HTTP).","1995 : le CD-ROM démocratise le multimédia.","2005 : streaming vidéo et audio en ligne.","2015 : mobile et réseaux sociaux.","2023 et après : IA générative, VR et AR."]},
+{h:"Domaines d’application",l:["E-learning : cours en ligne, MOOCs, simulations.","Jeux vidéo : graphisme, son et narration.","Réalité virtuelle et augmentée : formation, santé, industrie.","Web et réseaux sociaux, culture et communication, marketing, cinéma."]},
+{h:"Un système multimédia",p:"L’information va d’une source à un utilisateur : source, codeur, canal (où s’ajoute le bruit), décodeur, utilisateur. Un codec encode ou décode un flux (JPEG, MP3, MP4) ; son choix influence qualité, taille, stockage et diffusion. Les données viennent de signaux analogiques : la numérisation les convertit en valeurs, la compression réduit leur taille. Exemple du cours : une image de 640 × 480 px à 24 bits/pixel, soit 25 images ≈ 22 Mo pour 1 seconde et environ 1,3 Go pour 1 minute."},
+{h:"Les trois piliers",l:["Matériel : processeur et carte graphique, carte son, micro, webcam, écran, stockage.","Logiciel : système d’exploitation, logiciels de création, lecteurs, formats et codecs.","Réseau : haut débit, protocoles de streaming, serveurs cloud et CDN, bande passante."]},
+{h:"Chaîne de traitement",p:"Quatre étapes : acquisition (capture), traitement et codage (numérisation, compression), stockage et transmission, restitution et diffusion."}],tools:["D"]},
+{t:"Les signaux multimédia",d:"Support de 4h30",o:["Identifier les signaux son, image et vidéo","Comprendre les paramètres perceptifs du son","Distinguer signal analogique, échantillonné, quantifié et numérique","Décrire la numérisation : échantillonnage, quantification, codage"],
+s:[
+{h:"Signal, analogique et numérique",p:"Un signal est la représentation physique de l’information. Le signal analogique est continu dans le temps et l’amplitude ; le signal numérique est discret et représenté par une suite de valeurs binaires. Le signal reçu est le signal utile plus le bruit."},
+{h:"Le son",l:["Onde créée par la vibration de la matière ; il ne se propage pas dans le vide.","Hauteur (grave ou aigu) liée à la fréquence en Hz ; domaine audible d’environ 20 Hz à 20 000 Hz.","Intensité liée à l’amplitude ; timbre lié à la forme et au spectre du signal ; durée en secondes.","Période T = 1/f : à 440 Hz, T ≈ 2,27 ms."]},
+{h:"Classification des signaux",l:["Phénoménologique  : déterministes (périodiques, transitoires) ou aléatoires (décrits par des statistiques, éventuellement stationnaires).","Énergétique : énergie finie ou puissance moyenne finie.","Morphologique : analogique (temps et amplitude continus), échantillonné (temps discret), quantifié (amplitude discrète), numérique (les deux discrets).","Signaux particuliers : signe, échelon, rampe, porte, triangulaire, sinus cardinal."]},
+{h:"Image et vidéo",l:["Le spectre visible va d’environ 380 nm (violet) à 780 nm (rouge).","Pixel : élément d’image avec une position et une valeur de couleur ou d’intensité.","Résolution spatiale : largeur × hauteur (VGA 640×480, Full HD 1920×1080, 4K 3840×2160).","Résolution radiométrique : n bits donnent 2ⁿ niveaux ; en RVB à 24 bits, environ 16,7 millions de couleurs.","Résolution temporelle en images par seconde (24 fps au cinéma). Image binaire, en niveaux de gris (256 nuances) ou en couleur.","Synthèse additive RVB pour les écrans, soustractive CMY pour l’impression (C = 1 − R)."]},
+{h:"La numérisation",l:["1. Échantillonnage : mesurer le signal à intervalles réguliers (il discrétise le temps).","2. Quantification : rapprocher chaque échantillon d’un nombre limité de niveaux (elle discrétise l’amplitude).","3. Codage : transformer les niveaux en mots binaires.","Essayez ces étapes dans le laboratoire de la page d’accueil."]}],tools:["T","N","P","C"]},
+{t:"Théorie de l’information et codage binaire",d:"Support de 3h",o:["Comprendre et quantifier l’information","Convertir entre les bases 2, 10 et 16","Calculer et interpréter l’entropie","Construire un code de Huffman et mesurer son efficacité"],
+s:[
+{h:"Information et modèle de Shannon",p:"L’information est tout message qui réduit une incertitude : plus un événement est improbable, plus il apporte d’information. I(p) = −log₂ p, en bits. Le modèle de Shannon (1948) enchaîne source, encodeur, canal, décodeur, récepteur ; on étudie ici l’encodeur, pour représenter les symboles avec le moins de bits possible."},
+{h:"Systèmes de numération",l:["Décimal (base 10), binaire (base 2) et hexadécimal (base 16, un chiffre = 4 bits).","Binaire vers décimal : multiplier chaque bit par son poids. 01001101 = 64 + 8 + 4 + 1 = 77.","Décimal vers binaire : divisions par 2 successives, lecture des restes de bas en haut. 77 = 1001101₂.","Binaire vers hexadécimal : groupes de 4 bits. 1001101₂ = 4D₁₆ ; A1C4₁₆ = 1010000111000100₂.","Avec n bits on forme 2ⁿ combinaisons ; pour M valeurs, il faut le plus petit n tel que 2ⁿ ≥ M."]},
+{h:"Code à longueur fixe",p:"Tous les symboles ont L = ⌈log₂ M⌉ bits : décodage simple, mais aucune compression. L’efficacité vaut E = H(X) / L. Pour les 10 chiffres, L = 4 bits, H ≈ 3,32 bits (la source étant uniforme) et E ≈ 0,83 : le code est parfait seulement si M est une puissance de 2 et les symboles équiprobables."},
+{h:"Entropie",p:"H(X) = −Σ pᵢ log₂ pᵢ est l’information moyenne par symbole, avec 0 ≤ H ≤ log₂ M. Elle est maximale pour des symboles équiprobables. Exemple : pour p = 0,5 ; 0,25 ; 0,25, H = 1,5 bit/symbole."},
+{h:"Code à longueur variable et Huffman",l:["Symboles fréquents : mots courts ; symboles rares : mots longs. Théorème de Shannon : H ≤ L̄ < H + 1.","Huffman : trier, fusionner les deux plus faibles probabilités, répéter jusqu’à la racine, puis étiqueter 0 et 1.","Source A 0,5 / B 0,3 / C 0,2 : codes 0, 10, 11, L̄ = 1,5 bit contre 2 en code fixe, H ≈ 1,485 et E ≈ 0,99.","Exercice A 0,4 / B 0,2 / C 0,2 / D 0,1 / E 0,1 : L̄ = 2,2 bits, H ≈ 2,12 bits, E ≈ 96,45 %, un gain de 27 % sur les 3 bits du code fixe."]}],tools:["I","B","H"]},
+{t:"Compression des signaux multimédia",d:"Support de 4h30",o:["Expliquer pourquoi compresser","Distinguer compression sans perte et avec perte","Comprendre RLE, Huffman et LZW","Situer les standards audio, image (JPEG) et vidéo (MPEG, H.26x)"],
+s:[
+{h:"Redondance et taux de compression",l:["Redondances : de répétition, statistique, spatiale (pixels voisins) et temporelle (images successives).","Probabilité d’un symbole : pᵢ = nᵢ / N.","Taux de compression C = Sᵢ / S𝒸 ; taux de réduction R = (Sᵢ − S𝒸) / Sᵢ × 100 %. Exemple : 1 000 bits devenant 250 bits donnent C = 4 et R = 75 %.","L’entropie donne la limite : pour un codage sans perte, L̄ ≥ H(X)."]},
+{h:"Sans perte ou avec perte",l:["Sans perte : on retrouve exactement les données (ZIP, PNG, Huffman, LZW). Taux typique entre 1 et 3.","Avec perte : une information peu perceptible est supprimée (JPEG, MP3, MPEG). Taux autour de 10.","Compromis : taille contre complexité d’un côté, taille contre qualité de l’autre."]},
+{h:"Texte : RLE, Huffman, LZW",l:["RLE remplace les suites de symboles identiques par le symbole et le nombre de répétitions : AAAAABBCCCCDD devient A5B2C4D2. Efficace sur de longues séries, inutile si les répétitions sont rares.","Huffman exploite les fréquences des symboles.","LZW construit un dictionnaire adaptatif de chaînes déjà rencontrées (GIF, ZIP)."]},
+{h:"Audio",p:"Les familles étudiées sont G.72x, MPEG-1 Audio/MP3 et AC-3. Le MP3 suit une chaîne simplifiée : analyse en sous-bandes, analyse psycho-acoustique (quelles composantes sont masquées), quantification, puis codage de Huffman, pour des débits d’environ 64 à 320 kb/s."},
+{h:"Image : JPEG",p:"Le pipeline JPEG passe de RVB à YCbCr avec réduction de la chrominance, découpe l’image en blocs, applique la DCT, quantifie, puis réordonne (zigzag) et code avec RLE et un codage entropique. JPEG2000 emploie une approche par ondelettes, plus flexible."},
+{h:"Vidéo",p:"La vidéo exploite surtout la redondance temporelle : on code principalement les changements entre images. Le cours présente le multiplexage, MPEG et les normes H.261 à H.265."}],tools:["R","K"]}];
+var TL={
+T:'<div class="tool"><div><label for="tf">Fréquence f (Hz)</label><input id="tf" type="number" value="440" min="1"></div><div class="out" id="to" style="flex:2"></div></div>',
+I:'<div class="tool"><div><label for="ip">Probabilité p (entre 0 et 1)</label><input id="ip" type="number" value="0.125" min="0.0001" max="1" step="0.025"></div><div class="out" id="io" style="flex:2"></div></div>',
+R:'<div class="tool"><div style="flex:2"><label for="rt">Texte à compresser</label><input id="rt" type="text" value="AAAAABBCCCCDD" maxlength="60" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></div><div class="out" id="ro" style="flex:2"></div></div>'};
+var TT={T:"Calculer une période",I:"Calculer l’information I(p) = −log₂ p",R:"Essayer le codage RLE"};
+function tinit(k){
+  if(k==="T"){var f=function(){var v=+$("tf").value;$("to").innerHTML=v>0?"T = 1/f = <b>"+(1000/v).toFixed(2).replace(".",",")+" ms</b>"+(v<20||v>20000?" · hors du domaine audible":""):""};$("tf").oninput=f;f()}
+  if(k==="I"){var g=function(){var p=+$("ip").value;$("io").innerHTML=p>0&&p<=1?"I = <b>"+(p===1?"0":(-Math.log2(p)).toFixed(3).replace(".",","))+" bit</b>":"Entrez une probabilité entre 0 et 1."};$("ip").oninput=g;g()}
+  if(k==="R"){var r=function(){var s=$("rt").value,o="",i=0;while(i<s.length){var j=i;while(j<s.length&&s[j]===s[i])j++;o+=s[i]+(j-i);i=j}
+    $("ro").innerHTML=s?"RLE : <b>"+o.replace(/</g,"&lt;")+"</b><br>"+s.length+" → "+o.length+" caractères":""};$("rt").oninput=r;r()}
+}
+
+function inp(id,l,v,x){return '<div><label for="'+id+'">'+l+'</label><input id="'+id+'" type="number" value="'+v+'" '+(x||"")+'></div>'}
+function sl(id,l,a,b,v){return '<div><label for="'+id+'">'+l+' : <span id="'+id+'v"></span></label><input id="'+id+'" type="range" min="'+a+'" max="'+b+'" value="'+v+'"></div>'}
+TL.D='<div class="tool">'+inp("ds","Taille du fichier (Mo)",700,'min="1"')+inp("dr","Débit (Mb/s)",20,'min="0.1" step="0.5"')+'<div class="out" id="do" style="flex:2"></div></div>';
+TL.K='<div class="tool">'+inp("ks","Taille initiale Sᵢ (bits)",1000,'min="1"')+inp("kc","Taille compressée S𝒸 (bits)",250,'min="1"')+'<div class="out" id="ko" style="flex:2"></div></div>';
+TL.N='<canvas id="cn" style="height:170px"></canvas>'+sl("nr","Niveau de bruit (%)",0,100,25)+'<p class="out">Signal reçu = signal utile + bruit</p>';
+TL.P='<canvas id="cp" width="240" height="240" style="width:240px;height:240px;image-rendering:pixelated"></canvas><div class="ctl">'+sl("pr","Résolution (pixels par côté)",4,64,24)+sl("pb","Profondeur (bits par pixel)",1,8,3)+'</div><p class="out" id="po"></p>';
+TL.C='<div class="sw" id="cs"></div><div class="ctl">'+sl("cr","Rouge",0,255,200)+sl("cg","Vert",0,255,40)+sl("cb","Bleu",0,255,60)+'</div><p class="out" id="co"></p>';
+TL.B='<div class="tool">'+inp("bd","Décimal",77,'min="0" max="65535"')+'<div><label for="bb">Binaire</label><input id="bb" type="text" value="1001101" maxlength="16" style="width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit"></div><div class="out" id="bo" style="flex:1"></div></div>';
+TL.H='<div class="tool">'+[.4,.2,.2,.1,.1].map(function(p,i){return inp("hp"+i,"p("+"ABCDE"[i]+")",p,'min="0" max="1" step="0.05"')}).join("")+'</div><p class="out" id="ho"></p><p class="sub" style="margin:6px 0 0">Plusieurs arbres sont possibles : les mots peuvent différer de ceux du cours, mais la longueur moyenne reste minimale.</p>';
+TT.D="Temps de téléchargement";TT.K="Taux de compression";TT.N="Signal et bruit";TT.P="Pixels : résolution et profondeur";TT.C="Mélangeur RVB et CMY";TT.B="Convertisseur de bases";TT.H="Constructeur de code de Huffman";
+function cv(id,h){var c=$(id),d=window.devicePixelRatio||1,W=c.clientWidth;c.width=W*d;c.height=h*d;var x=c.getContext("2d");x.scale(d,d);return[x,W]}
+var NZ=[];for(var z=0;z<300;z++)NZ.push(Math.random()*2-1);
+function huff(p){var n=p.map(function(v,i){return{p:v,m:[i]}}),c=p.map(function(){return""});
+  while(n.length>1){n.sort(function(a,b){return a.p-b.p});var a=n.shift(),b=n.shift();a.m.forEach(function(i){c[i]="0"+c[i]});b.m.forEach(function(i){c[i]="1"+c[i]});n.push({p:a.p+b.p,m:a.m.concat(b.m)})}return c}
+function fr(v,d){return v.toFixed(d).replace(".",",")}
+function tinit2(k){
+  if(k==="D"){var f=function(){var s=+$("ds").value*8/Math.max(.01,+$("dr").value),m=Math.floor(s/60);$("do").innerHTML="Durée : <b>"+(s<60?fr(s,1)+" s":m+" min "+Math.round(s-m*60)+" s")+"</b>"};$("ds").oninput=f;$("dr").oninput=f;f()}
+  if(k==="K"){var g=function(){var a=+$("ks").value,b=+$("kc").value;$("ko").innerHTML=b>0?"C = <b>"+fr(a/b,2)+"</b><br>R = <b>"+fr((a-b)/a*100,1)+" %</b>":""};$("ks").oninput=g;$("kc").oninput=g;g()}
+  if(k==="N"){var n=function(){var q=cv("cn",170),x=q[0],W=q[1],a=+$("nr").value/100;$("nrv").textContent=a*100;
+    function Y(v){return 85-v*70}[["--curve",0],["--red",1]].forEach(function(s){x.strokeStyle=css(s[0]);x.lineWidth=2;x.beginPath();for(var i=0;i<=299;i++){var t=i/299,v=Math.sin(4*Math.PI*t)+(s[1]?a*.6*NZ[i]:0);i?x.lineTo(t*W,Y(v)):x.moveTo(0,Y(v))}x.stroke()})};$("nr").oninput=n;n()}
+  if(k==="P"){var p=function(){var r=+$("pr").value,b=+$("pb").value,L=Math.pow(2,b),x=$("cp").getContext("2d"),s=240/r;$("prv").textContent=r;$("pbv").textContent=b;
+    for(var i=0;i<r;i++)for(var j=0;j<r;j++){var u=(i+.5)/r,w=(j+.5)/r,v=Math.hypot(u-.5,w-.5)<.28?.95:.15+.6*u*(1-w*.5),g=Math.round(Math.round(v*(L-1))/(L-1)*255);x.fillStyle="rgb("+g+","+g+","+g+")";x.fillRect(i*s,j*s,Math.ceil(s),Math.ceil(s))}
+    var bits=r*r*b;$("po").innerHTML="<b>"+r+" × "+r+"</b> = "+(r*r)+" pixels · "+L+" niveaux de gris · <b>"+bits+" bits</b> ("+fr(bits/8,0)+" octets)"};$("pr").oninput=p;$("pb").oninput=p;p()}
+  if(k==="C"){var c=function(){var r=+$("cr").value,g=+$("cg").value,b=+$("cb").value;$("crv").textContent=r;$("cgv").textContent=g;$("cbv").textContent=b;$("cs").style.background="rgb("+r+","+g+","+b+")";
+    function X(v){return("0"+v.toString(16)).slice(-2).toUpperCase()}$("co").innerHTML="Hexadécimal : <b>#"+X(r)+X(g)+X(b)+"</b><br>CMY : C = "+fr(1-r/255,2)+" · M = "+fr(1-g/255,2)+" · Y = "+fr(1-b/255,2)};["cr","cg","cb"].forEach(function(i){$(i).oninput=c});c()}
+  if(k==="B"){var o=function(){var v=+$("bd").value||0;$("bo").innerHTML="Hexadécimal : <b>"+v.toString(16).toUpperCase()+"</b>"};
+    $("bd").oninput=function(){$("bb").value=(+$("bd").value||0).toString(2);o()};
+    $("bb").oninput=function(){var s=$("bb").value.replace(/[^01]/g,"");$("bb").value=s;$("bd").value=s?parseInt(s,2):0;o()};o()}
+  if(k==="H"){var hh=function(){var p=[],s=0,i;for(i=0;i<5;i++){p.push(Math.max(0,+$("hp"+i).value||0));s+=p[i]}
+    if(Math.abs(s-1)>.001||p.some(function(v){return v<=0})){$("ho").innerHTML="Les probabilités doivent être positives et leur somme égale à 1 (actuellement "+fr(s,2)+").";return}
+    var c=huff(p),L=0,H=0,t="";p.forEach(function(v,i){L+=v*c[i].length;H-=v*Math.log2(v);t+="ABCDE"[i]+" → <b>"+c[i]+"</b> · "});
+    $("ho").innerHTML=t+"<br>L̄ = <b>"+fr(L,3)+"</b> bits · H = <b>"+fr(H,3)+"</b> bits · E = <b>"+fr(H/L*100,2)+" %</b>"};for(var i=0;i<5;i++)$("hp"+i).oninput=hh;hh()}
+}
+var tinit1=tinit;tinit=function(k){tinit1(k);tinit2(k)};
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function page(n){
+  var c=C[n-1],h='<div class="pg"><a class="back" href="#cours">← Tous les chapitres</a><h1>'+esc(c.t)+'</h1><p class="lead">'+c.d+'. Objectifs :</p><ul class="lead" style="margin-top:-12px">';
+  c.o.forEach(function(x){h+="<li>"+esc(x)+"</li>"});h+="</ul>";
+  c.s.forEach(function(s){h+='<div class="panel"><h3>'+esc(s.h)+"</h3>";if(s.p)h+="<p>"+esc(s.p)+"</p>";if(s.l){h+="<ul>";s.l.forEach(function(x){h+="<li>"+esc(x)+"</li>"});h+="</ul>"}h+="</div>"});
+  (c.tools||[]).forEach(function(k){h+='<div class="panel"><h3>'+TT[k]+"</h3>"+TL[k]+"</div>"});
+  h+='<div class="panel"><h3>Quiz du chapitre</h3><div id="qzc"></div></div>';
+  h+='<div class="nav2">'+(n>1?'<a href="#chapitre-'+(n-1)+'">← Chapitre '+(n-1)+"</a>":"<span></span>")+(n<4?'<a href="#chapitre-'+(n+1)+'">Chapitre '+(n+1)+" →</a>":'<a href="#quiz">Passer au quiz →</a>')+"</div></div>";
+  $("chap").innerHTML=h;(c.tools||[]).forEach(tinit);Quiz($("qzc"),n,3);
+}
+function route(){
+  var m=/^#chapitre-([1-4])$/.exec(location.hash),id=location.hash.slice(1),ld=!m&&(id===""||id==="accueil"||id==="haut");
+  $("land").hidden=!ld;$("home").hidden=!!m||ld;$("chap").hidden=!m;
+  if(m){page(+m[1]);window.scrollTo(0,0)}
+  else if(ld)window.scrollTo(0,0);
+  else{draw();var el=$(id);if(el)el.scrollIntoView();else window.scrollTo(0,0)}
+}
+window.addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
